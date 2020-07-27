@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.1.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.noxzfate.template</groupId>
+	<artifactId>spring-employee-ap</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>spring-employee-api</name>
+	<description>Template API project</description>
+
+	<properties>
+		<java.version>11</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.openapi-generator>5.0.0-beta</version.openapi-generator>
+		<version.springfox>3.0.0</version.springfox>
+		<version.jjwt>0.9.0</version.jjwt>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!--	Security	-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${version.jjwt}</version>
+		</dependency>
+
+		<!--	swagger	-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>${version.springfox}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.11</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>openapi-codegen</id>
+			<activation>
+				<property>
+					<name>generate</name>
+					<value>swagger</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.openapitools</groupId>
+						<artifactId>openapi-generator-maven-plugin</artifactId>
+						<version>${version.openapi-generator}</version>
+						<executions>
+							<execution>
+								<id>generate-code</id>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<generatorName>spring</generatorName>
+									<library>spring-boot</library>
+
+									<inputSpec>${project.basedir}/src/main/resources/swagger/employee-api.v1.yml</inputSpec>
+
+									<skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+									<generateApis>true</generateApis>
+									<generateApiDocumentation>true</generateApiDocumentation>
+									<generateApiTests>false</generateApiTests>
+									<generateModels>true</generateModels>
+									<generateModelDocumentation>false</generateModelDocumentation>
+									<generateModelTests>false</generateModelTests>
+									<generateSupportingFiles>true</generateSupportingFiles>
+
+									<output>${project.build.directory}/generated-sources</output>
+									<modelPackage>controller.employee.model</modelPackage>
+									<apiPackage>controller.employee.api</apiPackage>
+									<configOptions>
+										<sourceFolder>main/java</sourceFolder>
+										<dateLibrary>java8</dateLibrary>
+										<java8>true</java8>
+										<useBeanValidation>true</useBeanValidation>
+										<performBeanValidation>true</performBeanValidation>
+										<interfaceOnly>false</interfaceOnly>
+										<delegatePattern>true</delegatePattern>
+										<useOptional>false</useOptional>
+									</configOptions>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

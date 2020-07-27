@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: employee api
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /employee:
+    get:
+      summary: Get Employee list
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+      operationId: get-employee
+      description: Get all list of employee available
+    post:
+      summary: Create new employee
+      operationId: post-employee
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+      description: Create new employee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+        description: Employee object
+  '/employee/{id}':
+    parameters:
+      - schema:
+          type: number
+          format: uuid
+        name: id
+        in: path
+        description: Unique ID of employee
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+      operationId: get-employee-id
+      description: Get one employee detail information by Id
+    put:
+      summary: ''
+      operationId: put-employee-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+      description: Update employee by ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+    delete:
+      summary: ''
+      operationId: delete-employee-id
+      responses:
+        '204':
+          description: No Content
+      description: Delete employee by ID
+components:
+  schemas:
+    Employee:
+      title: Employee
+      type: object
+      description: Object represent an employee with all its information
+      properties:
+        id:
+          type: integer
+          format: uuid
+          example: 1
+        type:
+          type: string
+          enum:
+            - normal
+            - part-time
+            - retired
+        firstName:
+          type: string
+          example: John
+          minLength: 0
+          maxLength: 255
+        lastName:
+          type: string
+          example: Doe
+          maxLength: 255
+          minLength: 0
+      required:
+        - type
+  securitySchemes: {}
